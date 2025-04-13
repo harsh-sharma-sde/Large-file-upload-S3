@@ -10,13 +10,13 @@ const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const router = express.Router();
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION,
+  region: '',
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: '',
+    secretAccessKey: '',
   },
 });
-const BUCKET = process.env.S3_BUCKET_NAME;
+const BUCKET = '';
 
 router.post('/start', async (req, res) => {
   const { fileName, contentType } = req.body;
@@ -63,6 +63,7 @@ router.post('/complete', async (req, res) => {
   });
 
   const result = await s3.send(command);
+  console.log('Upload completed:', result.Location);
   res.json({ success: true, location: result.Location });
 });
 

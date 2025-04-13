@@ -78,11 +78,13 @@ const S3Uploader = () => {
       setProgress(Math.floor((uploadedParts.length / totalParts) * 100));
     }
   
-    await axios.post('http://localhost:3000/upload/complete', {
+    const res = await axios.post('http://localhost:3000/upload/complete', {
       fileName: file.name,
       uploadId,
       parts: uploadedParts,
     });
+
+    console.log('Upload completed:', res.data, res);
   
     await db.delete(STORE_NAME, fileKey);
     alert('Upload complete!');
